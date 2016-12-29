@@ -241,7 +241,6 @@
         android:layout_above="@id/tempMinus"
         android:layout_centerInParent="true"
         android:contentDescription="@string/onOffDescription"
-        android:onClick="onOffClick"
         android:src="@drawable/temp_middle"/>
     <ImageView
         android:id="@+id/tempPlus"
@@ -273,7 +272,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/onOffDescription"
-        android:onClick="onOffClick"
         android:src="@drawable/timer_on"/>
 
     <ImageView
