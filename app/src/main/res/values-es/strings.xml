@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RPi AA Remote</string>
+    <string name="auto">Auto</string>
+    <string name="cool">Frío</string>
+    <string name="dry">Deshumidificador</string>
+    <string name="fan">Ventilador</string>
+    <string name="heat">Calor</string>
+    <string name="scale">ºC</string>
+    <string name="onOffDescription">On / Off</string>
+    <string name="connection_error">No se han podido hacer los cambios. Error de conexión</string>
+</resources>

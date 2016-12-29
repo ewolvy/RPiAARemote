@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RPi AA Remote</string>
+    <string name="cool">Cool</string>
+    <string name="dry">Dry</string>
+    <string name="heat">Heat</string>
+    <string name="fan">Fan</string>
+    <string name="temperature" translatable="false">27</string>
+    <string name="scale">ºC</string>
+    <string name="onOffDescription">On / Off</string>
+    <string name="connection_error">Could not make the changes. Connection error</string>
+    <string name="auto">Auto</string>
+    <string name="sign_fan" translatable="false"><![CDATA[>>>]]></string>
+</resources>
