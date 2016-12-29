@@ -1,16 +1,5 @@
 package com.mooo.ewolvy.rpiaaremote;
 
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-
 class AAState {
     // Constants
     static final int AUTO_MODE = 0;
@@ -23,41 +12,48 @@ class AAState {
     static final int LEVEL1_FAN = 1;
     static final int LEVEL2_FAN = 2;
     static final int LEVEL3_FAN = 3;
+    private static final int SPECIAL_FAN = 4;
 
-    static final int TEMP_MAX = 32;
-    static final int TEMP_MIN = 16;
+    static final int TEMP_MIN = 17;
+    static final int TEMP_MAX = 30;
 
-    private static final String LOG_TAG = "AAState";
+    private static final String INIT_CHAIN = "B42D";
+    private static final String SWING_CHAIN = "B24D6B94E01F";
+    private static final String OFF_CHAIN = "B24D7B84E01F";
 
-    private static final String BASE_URL = "http://ewolvy.mooo.com:1207/";
-    private static final String URL_PLUSTEMP = "plustemp";
-    private static final String URL_MINUSTEMP = "minustemp";
-    private static final String URL_SWINGON = "swingOn";
-    private static final String URL_SWINGOFF = "swingOff";
-    private static final String URL_TURNON = "turnOn";
-    private static final String URL_TURNOFF = "turnOff";
-    private static final String URL_MODE = "mode";
-    private static final String URL_FAN = "fan";
-    private static final String URL_GETSTATUS = "getStatus";
+    private static final char[] FAN_MODES= {'B', '9', '5', '3', '1'};
+    private static final char[] REVERSE_FAN_MODES = {'4', '6', 'A', 'C', 'E'};
+    private static final char[] TEMPS = {'0', '1', '3', '2', '6', '7', '5', '4', 'C', 'D', '9', '8', 'A', 'B'};
+    private static final char[] REVERSE_TEMPS = {'F', 'E', 'C', 'D', '9', '8', 'A', 'B', '3', '2', '6', '7', '5', '4'};
+    private static final char[] MODES = {'8', '0', '4', 'C', '4'};
+    private static final char[] REVERSE_MODES = {'7', 'F', 'B', '3', 'B'};
 
     // Variables
     private boolean isOn;
-    private boolean isSwingOn;
     private int currentMode;
     private int currentFan;
     private int currentTemp;
 
     // Constructor
     AAState (boolean stateOn,
-                    boolean stateSwing,
                     int stateMode,
                     int stateFan,
                     int stateTemp){
         isOn = stateOn;
-        isSwingOn = stateSwing;
-        currentMode = stateMode;
-        currentFan = stateFan;
-        currentTemp = stateTemp;
+
+        if (!setMode(stateMode)){
+            setMode (AUTO_MODE);
+        }
+
+        if (!setFan (stateFan)){
+            setFan (AUTO_FAN);
+        }
+
+        if (stateTemp < TEMP_MIN || stateTemp > TEMP_MAX){
+            currentTemp = (TEMP_MIN + TEMP_MAX) / 2;
+        }else{
+            currentTemp = stateTemp;
+        }
     }
 
     // Setters and getters methods for variables //
@@ -68,44 +64,42 @@ class AAState {
         isOn = on;
         return true;
     }
-    public boolean isSwingOn() {
-        return isSwingOn;
-    }
-    public void setSwingOn(boolean isSwingOn) {
-        this.isSwingOn = isSwingOn;
-    }
+
     int getMode() {
         return currentMode;
     }
+
     boolean setMode(int mode) {
         if (mode < AUTO_MODE || mode > FAN_MODE){
             return false;
         }else{
+            if (AUTO_MODE != mode) {
+                this.currentFan = AUTO_FAN;
+            }
             this.currentMode = mode;
-            return true;
         }
+
+        if (mode == AUTO_MODE){
+            this.currentFan = SPECIAL_FAN;
+        }
+        return true;
     }
+
     int getFan() {
         return currentFan;
     }
+
     boolean setFan(int fan) {
-        if (fan < AUTO_FAN || fan > LEVEL3_FAN){
+        if (fan < AUTO_FAN || fan > LEVEL3_FAN || this.currentMode == AUTO_MODE){
             return false;
-        }else {
+        }else{
             this.currentFan = fan;
             return true;
         }
     }
+
     int getCurrentTemp() {
         return currentTemp;
-    }
-    public boolean setCurrentTemp(int currentTemp) {
-        if (currentTemp < TEMP_MIN || currentTemp > TEMP_MAX){
-            return false;
-        }else{
-            this.currentTemp = currentTemp;
-            return true;
-        }
     }
     // End of setters and getters //
 
@@ -118,6 +112,7 @@ class AAState {
             return false;
         }
     }
+
     boolean setMinusTemp(){
         if (currentTemp != TEMP_MIN){
             currentTemp--;
@@ -127,4 +122,25 @@ class AAState {
         }
     }
 
+    // Commands methods
+    String getCommand (){
+        String command = INIT_CHAIN;
+        command = command + FAN_MODES[currentFan];
+        command = command + "F";
+        command = command + REVERSE_FAN_MODES[currentFan];
+        command = command + "0";
+        command = command + TEMPS[currentTemp];
+        command = command + MODES[currentMode];
+        command = command + REVERSE_TEMPS[currentTemp];
+        command = command + REVERSE_MODES[currentMode];
+        return command;
+    }
+
+    String getSwing(){
+        return SWING_CHAIN;
+    }
+
+    String getPowerOff(){
+        return OFF_CHAIN;
+    }
 }

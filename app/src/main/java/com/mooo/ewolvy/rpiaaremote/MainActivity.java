@@ -10,7 +10,6 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity{
 
     AAState state = new AAState(false,                      // Está apagado
-                                false,                      // Swing apagado
                                 AAState.AUTO_MODE,          // Modo automático
                                 AAState.AUTO_FAN, 27);      // Ventilador automático
 
