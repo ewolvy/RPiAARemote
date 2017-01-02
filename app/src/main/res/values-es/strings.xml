@@ -7,6 +7,11 @@
     <string name="fan">Ventilador</string>
     <string name="heat">Calor</string>
     <string name="scale">ºC</string>
-    <string name="onOffDescription">On / Off</string>
     <string name="connection_error">No se han podido hacer los cambios. Error de conexión</string>
+    <string name="mode_description">Modo</string>
+    <string name="onoff_description">Encendido / Apagado</string>
+    <string name="tempplus_description">Añadir un grado</string>
+    <string name="temp_description">Temperatura</string>
+    <string name="tempminus_description">Quitar un grado</string>
+    <string name="swing_description">Balanceo</string>
 </resources>

@@ -6,8 +6,13 @@
     <string name="fan">Fan</string>
     <string name="temperature" translatable="false">27</string>
     <string name="scale">ºC</string>
-    <string name="onOffDescription">On / Off</string>
     <string name="connection_error">Could not make the changes. Connection error</string>
     <string name="auto">Auto</string>
     <string name="sign_fan" translatable="false"><![CDATA[>>>]]></string>
+    <string name="mode_description">Mode</string>
+    <string name="onoff_description">On / Off</string>
+    <string name="tempplus_description">Plus one degree</string>
+    <string name="temp_description">Temperature</string>
+    <string name="tempminus_description">Minus one degree</string>
+    <string name="swing_description">Swing</string>
 </resources>

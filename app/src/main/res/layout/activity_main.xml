@@ -16,7 +16,6 @@
         android:minWidth="80sp"
         android:orientation="vertical"
         android:padding="4dp">
-
         <TextView
             android:id="@+id/autoMode"
             android:layout_width="wrap_content"
@@ -24,7 +23,6 @@
             android:layout_margin="4dp"
             android:text="@string/auto"
             android:visibility="visible" />
-
         <TextView
             android:id="@+id/coolMode"
             android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
             android:layout_margin="4dp"
             android:text="@string/cool"
             android:visibility="invisible" />
-
         <TextView
             android:id="@+id/dryMode"
             android:layout_width="wrap_content"
@@ -40,7 +37,6 @@
             android:layout_margin="4dp"
             android:text="@string/dry"
             android:visibility="invisible" />
-
         <TextView
             android:id="@+id/heatMode"
             android:layout_width="wrap_content"
@@ -48,7 +44,6 @@
             android:layout_margin="4dp"
             android:text="@string/heat"
             android:visibility="invisible" />
-
         <TextView
             android:id="@+id/fanMode"
             android:layout_width="wrap_content"
@@ -72,7 +67,7 @@
         android:layout_height="16dp"
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@id/modeListLayout"
-        android:contentDescription="@string/onOffDescription"
+        android:contentDescription="@string/onoff_description"
         android:src="@drawable/onoff_symbol"
         android:visibility="invisible" />
 
@@ -88,7 +83,6 @@
         android:text="@string/temperature"
         android:textSize="100sp"
         android:visibility="visible" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,7 +109,6 @@
         android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:visibility="visible" />
-
     <TextView
         android:id="@+id/fanLevel1"
         android:layout_width="wrap_content"
@@ -129,7 +122,6 @@
         android:text="@string/sign_fan"
         android:textAllCaps="true"
         android:visibility="invisible" />
-
     <TextView
         android:id="@+id/fanLevel2"
         android:layout_width="wrap_content"
@@ -143,7 +135,6 @@
         android:text="@string/sign_fan"
         android:textAllCaps="true"
         android:visibility="invisible" />
-
     <TextView
         android:id="@+id/fanLevel3"
         android:layout_width="wrap_content"
@@ -157,7 +148,6 @@
         android:text="@string/sign_fan"
         android:textAllCaps="true"
         android:visibility="invisible" />
-
     <TextView
         android:id="@+id/fanLevelAuto"
         android:layout_width="wrap_content"
@@ -178,132 +168,67 @@
         android:layout_height="48dp"
         android:layout_below="@id/lineView"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="@string/onOffDescription"
+        android:layout_marginTop="48dp"
+        android:contentDescription="@string/onoff_description"
         android:onClick="onOffClick"
         android:src="@drawable/onoff_off" />
-
     <ImageView
-        android:id="@+id/modeButton"
+        android:id="@+id/swingDirectButton"
         android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/onOffButton"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:onClick="modeClick"
-        android:src="@drawable/mode" />
-
-    <ImageView
-        android:id="@+id/fanButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/modeButton"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:onClick="fanClick"
-        android:src="@drawable/fan"/>
-
-    <ImageView
-        android:id="@+id/sleepButton"
-        android:layout_width="120dp"
         android:layout_height="48dp"
         android:layout_below="@id/fanButton"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/sleep" />
-
+        android:contentDescription="@string/swing_description"
+        android:src="@drawable/swing" />
     <ImageView
-        android:id="@+id/turboSelfCleanButton"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/sleepButton"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/turbo_selfclean" />
-
-    <ImageView
-        android:id="@+id/tempMinus"
-        android:layout_width="96dp"
-        android:layout_height="32dp"
-        android:layout_above="@id/sleepButton"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/onOffDescription"
-        android:onClick="tempMinusClick"
-        android:src="@drawable/temp_minus"/>
-    <ImageView
-        android:id="@+id/tempMiddle"
-        android:layout_width="96dp"
-        android:layout_height="32dp"
-        android:layout_above="@id/tempMinus"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/temp_middle"/>
-    <ImageView
-        android:id="@+id/tempPlus"
-        android:layout_width="96dp"
-        android:layout_height="32dp"
-        android:layout_above="@id/tempMiddle"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/onOffDescription"
-        android:onClick="tempPlusClick"
-        android:src="@drawable/temp_plus"/>
-
-    <ImageView
-        android:id="@+id/silenceFPButton"
+        android:id="@+id/fanButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/lineView"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/silence_fp"/>
-
+        android:layout_marginTop="48dp"
+        android:contentDescription="@string/fan"
+        android:onClick="fanClick"
+        android:src="@drawable/fan"/>
     <ImageView
-        android:id="@+id/timerOnButton"
+        android:id="@+id/modeButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
-        android:layout_below="@id/silenceFPButton"
+        android:layout_below="@id/onOffButton"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/timer_on"/>
+        android:contentDescription="@string/mode_description"
+        android:onClick="modeClick"
+        android:src="@drawable/mode" />
 
     <ImageView
-        android:id="@+id/timerOffButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/timerOnButton"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/timer_off" />
-
+        android:id="@+id/tempPlus"
+        android:layout_width="96dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/fanShowCurrent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="48dp"
+        android:contentDescription="@string/tempplus_description"
+        android:onClick="tempPlusClick"
+        android:src="@drawable/temp_plus"/>
     <ImageView
-        android:id="@+id/swingDirectButton"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/timerOffButton"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/swing_direct" />
-
+        android:id="@+id/tempMiddle"
+        android:layout_width="96dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/tempPlus"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/temp_description"
+        android:src="@drawable/temp_middle"/>
     <ImageView
-        android:id="@+id/ledFollowMeButton"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/swingDirectButton"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/onOffDescription"
-        android:src="@drawable/led_followme"/>
+        android:id="@+id/tempMinus"
+        android:layout_width="96dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/tempMiddle"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/tempminus_description"
+        android:onClick="tempMinusClick"
+        android:src="@drawable/temp_minus"/>
 </RelativeLayout>
