@@ -15,4 +15,15 @@
     <string name="temp_description">Temperature</string>
     <string name="tempminus_description">Minus one degree</string>
     <string name="swing_description">Swing</string>
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">RPiAARemote settings</string>
+    <string name="settings_address_label">Server address</string>
+    <string name="settings_address_key" translatable="false">address</string>
+    <string name="settings_port_label">Server port</string>
+    <string name="settings_port_key" translatable="false">port</string>
+    <string name="settings_username_key" translatable="false">username</string>
+    <string name="settings_username_label">Username</string>
+    <string name="settings_password_key" translatable="false">password</string>
+    <string name="settings_password_label">Password</string>
+    <string name="server_data_missing">Server data is missing. Please go to settings and complete them</string>
 </resources>

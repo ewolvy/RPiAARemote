@@ -1,5 +1,9 @@
 package com.mooo.ewolvy.rpiaaremote;
 
+import android.net.Uri;
+
+import java.net.URI;
+
 class AAState {
     // Constants
     static final int AUTO_MODE = 0;
@@ -34,12 +38,50 @@ class AAState {
     private int currentFan;
     private boolean activeFan;
     private int currentTemp;
+    private String serverAddress;
+    private int serverPort;
+    private String serverUsername;
+    private String serverPassword;
+    private URI serverURI;
 
-    // Constructor
+    // Constructor sin datos de servidor
     AAState (boolean stateOn,
                     int stateMode,
                     int stateFan,
                     int stateTemp){
+        isOn = stateOn;
+
+        if (!setMode(stateMode)){
+            setMode (AUTO_MODE);
+        }
+
+        activeFan = getMode() != AUTO_MODE;
+
+        if (!setFan (stateFan)){
+            setFan (AUTO_FAN);
+        }
+
+        if (stateTemp < TEMP_MIN || stateTemp > TEMP_MAX){
+            currentTemp = (TEMP_MIN + TEMP_MAX) / 2;
+        }else{
+            currentTemp = stateTemp;
+        }
+    }
+
+    // Constructor con datos de servidor
+    AAState (boolean stateOn,
+             int stateMode,
+             int stateFan,
+             int stateTemp,
+             String address,
+             int port,
+             String username,
+             String password){
+
+        serverAddress = address;
+        serverPort = port;
+        serverUsername = username;
+        serverPassword = password;
         isOn = stateOn;
 
         if (!setMode(stateMode)){
@@ -142,12 +184,16 @@ class AAState {
         command = command + REVERSE_MODES[currentMode];
         return command;
     }
-
     String getSwing(){
         return SWING_CHAIN;
     }
-
     String getPowerOff(){
         return OFF_CHAIN;
+    }
+
+    // URI methods
+    URI getServerURI (){
+        //TODO: completar método para crear el URI.
+        return serverURI;
     }
 }

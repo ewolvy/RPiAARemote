@@ -14,4 +14,11 @@
     <string name="temp_description">Temperatura</string>
     <string name="tempminus_description">Quitar un grado</string>
     <string name="swing_description">Balanceo</string>
+    <string name="settings_menu_item">Preferencias</string>
+    <string name="settings_title">Preferencias de RpiAARemote</string>
+    <string name="settings_address_label">Dirección del servidor</string>
+    <string name="settings_port_label">Puerto del servidor</string>
+    <string name="settings_username_label">Usuario</string>
+    <string name="settings_password_label">Contraseña</string>
+    <string name="server_data_missing">Faltan los datos del servidor. Por favor, vaya a Preferencias para completarlos</string>
 </resources>
