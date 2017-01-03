@@ -32,6 +32,7 @@ class AAState {
     private boolean isOn;
     private int currentMode;
     private int currentFan;
+    private boolean activeFan;
     private int currentTemp;
 
     // Constructor
@@ -44,6 +45,8 @@ class AAState {
         if (!setMode(stateMode)){
             setMode (AUTO_MODE);
         }
+
+        activeFan = getMode() != AUTO_MODE;
 
         if (!setFan (stateFan)){
             setFan (AUTO_FAN);
@@ -60,6 +63,7 @@ class AAState {
     public boolean isOn() {
         return isOn;
     }
+
     boolean setOn(boolean on) {
         isOn = on;
         return true;
@@ -69,18 +73,14 @@ class AAState {
         return currentMode;
     }
 
+    boolean isActiveFan() {return activeFan;}
+
     boolean setMode(int mode) {
         if (mode < AUTO_MODE || mode > FAN_MODE){
             return false;
         }else{
-            if (AUTO_MODE != mode) {
-                this.currentFan = AUTO_FAN;
-            }
+            this.activeFan = mode != AUTO_MODE;
             this.currentMode = mode;
-        }
-
-        if (mode == AUTO_MODE){
-            this.currentFan = SPECIAL_FAN;
         }
         return true;
     }
@@ -125,10 +125,17 @@ class AAState {
     // Commands methods
     String getCommand (){
         String command = INIT_CHAIN;
-        command = command + FAN_MODES[currentFan];
-        command = command + "F";
-        command = command + REVERSE_FAN_MODES[currentFan];
-        command = command + "0";
+        if (isActiveFan()) {
+            command = command + FAN_MODES[currentFan];
+            command = command + "F";
+            command = command + REVERSE_FAN_MODES[currentFan];
+            command = command + "0";
+        }else{
+            command = command + FAN_MODES[SPECIAL_FAN];
+            command = command + "F";
+            command = command + REVERSE_FAN_MODES[SPECIAL_FAN];
+            command = command + "0";
+        }
         command = command + TEMPS[currentTemp];
         command = command + MODES[currentMode];
         command = command + REVERSE_TEMPS[currentTemp];

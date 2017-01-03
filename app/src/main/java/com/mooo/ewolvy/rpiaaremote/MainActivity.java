@@ -11,7 +11,8 @@ public class MainActivity extends AppCompatActivity{
 
     AAState state = new AAState(false,                      // Está apagado
                                 AAState.AUTO_MODE,          // Modo automático
-                                AAState.AUTO_FAN, 27);      // Ventilador automático
+                                AAState.AUTO_FAN,           // Ventilador automático
+                                27);                        // 27 grados
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void fanClick(View view) {
+        if (!state.isActiveFan()){return;}
         TextView fanView;
         switch (state.getFan()) {
             case AAState.AUTO_FAN:
