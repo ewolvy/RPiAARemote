@@ -9,7 +9,7 @@
     <string name="scale">ºC</string>
     <string name="connection_error">No se han podido hacer los cambios. Error de conexión</string>
     <string name="mode_description">Modo</string>
-    <string name="onoff_description">Encendido / Apagado</string>
+    <string name="off_description">Apagado</string>
     <string name="tempplus_description">Añadir un grado</string>
     <string name="temp_description">Temperatura</string>
     <string name="tempminus_description">Quitar un grado</string>
@@ -21,4 +21,6 @@
     <string name="settings_username_label">Usuario</string>
     <string name="settings_password_label">Contraseña</string>
     <string name="server_data_missing">Faltan los datos del servidor. Por favor, vaya a Preferencias para completarlos</string>
+    <string name="send_description">Enviar código</string>
+    <string name="onoff_description">Encendido / Apagado</string>
 </resources>

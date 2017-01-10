@@ -11,10 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Objects;
-
-import static android.R.attr.port;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -38,16 +35,14 @@ public class MainActivity extends AppCompatActivity{
 
         if (Objects.equals(address, "") || port == 0 || Objects.equals(username, "") || Objects.equals(password, "")) {
             // Constructor sin datos del servidor: hay que avisar al usuario que los rellene
-            state = new AAState(false,          // Está apagado
-                    AAState.AUTO_MODE,          // Modo automático
+            state = new AAState(AAState.AUTO_MODE,          // Modo automático
                     AAState.AUTO_FAN,           // Ventilador automático
                     27);                        // 27 grados
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
             toast.show();
         }else {
             // Constructor con datos del servidor
-            state = new AAState(false,          // Está apagado
-                    AAState.AUTO_MODE,          // Modo automático
+            state = new AAState(AAState.AUTO_MODE,          // Modo automático
                     AAState.AUTO_FAN,           // Ventilador automático
                     27,                         // 27 grados
                     address,                    // Dirección del servidor
@@ -74,25 +69,10 @@ public class MainActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void onOffClick(View view) {
-        ImageView button = (ImageView) findViewById(R.id.onOffButton);
+    public void offClick(View view) {
         ImageView onOffSign = (ImageView) findViewById(R.id.onOffSign);
-        if (state.isOn() && button != null && onOffSign != null) {
-            if (state.setOn (false)){
-                button.setImageResource(R.drawable.onoff_off);
-                onOffSign.setVisibility(View.INVISIBLE);
-            }else{
-                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.connection_error), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        } else if (button != null && onOffSign != null) {
-            if (state.setOn (true)) {
-                button.setImageResource(R.drawable.onoff_on);
-                onOffSign.setVisibility(View.VISIBLE);
-            }else{
-                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.connection_error), Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        if (onOffSign != null){
+            onOffSign.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -216,7 +196,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void tempMinusClick(View view) {
-        if (state.getCurrentTemp() > AAState.TEMP_MIN){
+        if (state.getCurrentTemp() > AAState.TEMP_MIN && state.isActiveTemp()){
             state.setMinusTemp();
             TextView tempView = (TextView) findViewById(R.id.tempView);
             String temperature = Integer.toString(state.getCurrentTemp());
@@ -225,11 +205,18 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void tempPlusClick(View view) {
-        if (state.getCurrentTemp() < AAState.TEMP_MAX){
+        if (state.getCurrentTemp() < AAState.TEMP_MAX && state.isActiveTemp()){
             state.setPlusTemp();
             TextView tempView = (TextView) findViewById(R.id.tempView);
             String temperature = Integer.toString(state.getCurrentTemp());
             if (tempView != null) tempView.setText(temperature);
+        }
+    }
+
+    public void sendClick(View view) {
+        ImageView onOffSign = (ImageView) findViewById(R.id.onOffSign);
+        if (onOffSign != null){
+            onOffSign.setVisibility(View.VISIBLE);
         }
     }
 }

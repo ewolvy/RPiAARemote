@@ -10,7 +10,7 @@
     <string name="auto">Auto</string>
     <string name="sign_fan" translatable="false"><![CDATA[>>>]]></string>
     <string name="mode_description">Mode</string>
-    <string name="onoff_description">On / Off</string>
+    <string name="off_description">Off</string>
     <string name="tempplus_description">Plus one degree</string>
     <string name="temp_description">Temperature</string>
     <string name="tempminus_description">Minus one degree</string>
@@ -26,4 +26,6 @@
     <string name="settings_password_key" translatable="false">password</string>
     <string name="settings_password_label">Password</string>
     <string name="server_data_missing">Server data is missing. Please go to settings and complete them</string>
+    <string name="send_description">Send code</string>
+    <string name="onoff_description">On / Off</string>
 </resources>
