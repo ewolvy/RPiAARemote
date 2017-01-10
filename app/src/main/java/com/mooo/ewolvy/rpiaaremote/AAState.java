@@ -1,7 +1,5 @@
 package com.mooo.ewolvy.rpiaaremote;
 
-import android.net.Uri;
-
 class AAState {
     // Constants
     static final int AUTO_MODE = 0;
@@ -32,18 +30,14 @@ class AAState {
     private static final char[] REVERSE_MODES = {'7', 'F', 'B', '3', 'B'};
 
     // Variables
+    private boolean isOn;
     private int currentMode;
     private int currentFan;
     private boolean activeFan;
     private boolean activeTemp;
     private int currentTemp;
-    private String serverAddress;
-    private int serverPort;
-    private String serverUsername;
-    private String serverPassword;
-    private Uri serverURI;
 
-    // Constructor sin datos de servidor
+    // Constructor
     AAState (int stateMode,
                     int stateFan,
                     int stateTemp){
@@ -51,6 +45,7 @@ class AAState {
             setMode (AUTO_MODE);
         }
 
+        isOn = false;
         activeFan = (getMode() != AUTO_MODE) && (getMode() != DRY_MODE);
         activeTemp = getMode() != FAN_MODE;
 
@@ -65,39 +60,9 @@ class AAState {
         }
     }
 
-    // Constructor con datos de servidor
-    AAState (int stateMode,
-             int stateFan,
-             int stateTemp,
-             String address,
-             int port,
-             String username,
-             String password){
-
-        serverAddress = address;
-        serverPort = port;
-        serverUsername = username;
-        serverPassword = password;
-
-        if (!setMode(stateMode)){
-            setMode (AUTO_MODE);
-        }
-
-        activeFan = getMode() != AUTO_MODE;
-        activeTemp = getMode() != FAN_MODE;
-
-        if (!setFan (stateFan)){
-            setFan (AUTO_FAN);
-        }
-
-        if (stateTemp < TEMP_MIN || stateTemp > TEMP_MAX){
-            currentTemp = (TEMP_MIN + TEMP_MAX) / 2;
-        }else{
-            currentTemp = stateTemp;
-        }
-    }
-
     // Setters and getters methods for variables //
+    boolean getIsOn(){return isOn;}
+
     int getMode() {
         return currentMode;
     }
@@ -105,6 +70,8 @@ class AAState {
     boolean isActiveFan() {return activeFan;}
 
     boolean isActiveTemp() {return activeTemp;}
+
+    void setOn (boolean on){this.isOn = on;}
 
     boolean setMode(int mode) {
         if (mode < AUTO_MODE || mode > FAN_MODE){
@@ -186,11 +153,5 @@ class AAState {
     }
     String getPowerOff(){
         return OFF_CHAIN;
-    }
-
-    // URI methods
-    Uri getServerURI (){
-        serverURI = Uri.parse(serverAddress);
-        return serverURI;
     }
 }

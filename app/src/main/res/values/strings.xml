@@ -28,4 +28,5 @@
     <string name="server_data_missing">Server data is missing. Please go to settings and complete them</string>
     <string name="send_description">Send code</string>
     <string name="onoff_description">On / Off</string>
+    <string name="is_off_message">System is Off. Can\'t change swing</string>
 </resources>

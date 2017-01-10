@@ -33,22 +33,16 @@ public class MainActivity extends AppCompatActivity{
             port = 0;
         }
 
+        // Constructor sin datos del servidor: hay que avisar al usuario que los rellene
+        state = new AAState(AAState.AUTO_MODE,          // Modo automático
+                AAState.AUTO_FAN,                       // Ventilador automático
+                27);                                    // 27 grados
+
         if (Objects.equals(address, "") || port == 0 || Objects.equals(username, "") || Objects.equals(password, "")) {
-            // Constructor sin datos del servidor: hay que avisar al usuario que los rellene
-            state = new AAState(AAState.AUTO_MODE,          // Modo automático
-                    AAState.AUTO_FAN,           // Ventilador automático
-                    27);                        // 27 grados
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
             toast.show();
         }else {
-            // Constructor con datos del servidor
-            state = new AAState(AAState.AUTO_MODE,          // Modo automático
-                    AAState.AUTO_FAN,           // Ventilador automático
-                    27,                         // 27 grados
-                    address,                    // Dirección del servidor
-                    port,                       // Puerto del servidor
-                    username,                   // Nombre de usuario
-                    password);                  // Password
+            // TODO: Preparar el objeto Servidor
         }
     }
 
@@ -74,6 +68,9 @@ public class MainActivity extends AppCompatActivity{
         if (onOffSign != null){
             onOffSign.setVisibility(View.INVISIBLE);
         }
+        state.setOn(false);
+        Toast toast = Toast.makeText(getApplicationContext(), state.getPowerOff(), Toast.LENGTH_LONG);
+        toast.show();
     }
 
     public void modeClick(View view) {
@@ -217,6 +214,19 @@ public class MainActivity extends AppCompatActivity{
         ImageView onOffSign = (ImageView) findViewById(R.id.onOffSign);
         if (onOffSign != null){
             onOffSign.setVisibility(View.VISIBLE);
+        }
+        state.setOn (true);
+        Toast toast = Toast.makeText(getApplicationContext(), state.getCommand(), Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public void swingClick(View view) {
+        if (state.getIsOn()) {
+            Toast toast = Toast.makeText(getApplicationContext(), state.getSwing(), Toast.LENGTH_LONG);
+            toast.show();
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.is_off_message), Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 }

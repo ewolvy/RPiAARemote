@@ -23,4 +23,5 @@
     <string name="server_data_missing">Faltan los datos del servidor. Por favor, vaya a Preferencias para completarlos</string>
     <string name="send_description">Enviar código</string>
     <string name="onoff_description">Encendido / Apagado</string>
+    <string name="is_off_message">El sistema está apagado. No se puede cambiar el swing</string>
 </resources>
