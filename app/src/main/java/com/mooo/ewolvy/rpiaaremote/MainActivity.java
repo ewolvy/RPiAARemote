@@ -16,11 +16,14 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity{
 
     AAState state;
+    SSLServer myServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Read the preferences, if exists
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String address = sharedPrefs.getString(getString(R.string.settings_address_key), "");
         String port_str = sharedPrefs.getString(getString(R.string.settings_port_key), "0");
@@ -33,16 +36,18 @@ public class MainActivity extends AppCompatActivity{
             port = 0;
         }
 
-        // Constructor sin datos del servidor: hay que avisar al usuario que los rellene
+        // Create AAState object to manage the AA
         state = new AAState(AAState.AUTO_MODE,          // Modo automático
                 AAState.AUTO_FAN,                       // Ventilador automático
                 27);                                    // 27 grados
 
+        // If preferences are not set ask the user to set them, else create the SSLServer object to manage it
         if (Objects.equals(address, "") || port == 0 || Objects.equals(username, "") || Objects.equals(password, "")) {
+            myServer = null;
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
             toast.show();
         }else {
-            // TODO: Preparar el objeto Servidor
+            myServer = new SSLServer(address, port, username, password);
         }
     }
 
@@ -64,13 +69,12 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void offClick(View view) {
-        ImageView onOffSign = (ImageView) findViewById(R.id.onOffSign);
-        if (onOffSign != null){
-            onOffSign.setVisibility(View.INVISIBLE);
+        if (myServer != null){
+            myServer.sendCode (state.getPowerOff(), getApplicationContext(), state, (ImageView) findViewById(R.id.onOffSign));
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
+            toast.show();
         }
-        state.setOn(false);
-        Toast toast = Toast.makeText(getApplicationContext(), state.getPowerOff(), Toast.LENGTH_LONG);
-        toast.show();
     }
 
     public void modeClick(View view) {

@@ -1,8 +1,12 @@
 package com.mooo.ewolvy.rpiaaremote;
 
 import android.content.Context;
-import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,13 +17,12 @@ import java.nio.charset.Charset;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-public class SSLServer {
+class SSLServer {
     // Constants
     static private final String LOG_TAG = "SSLServer";
 
@@ -28,6 +31,9 @@ public class SSLServer {
     private int port;
     private String username;
     private String password;
+    private String codeToSend;
+    private AAState currentAAState;
+    private ImageView onOffSign;
 
     // Constructor
     SSLServer(String add, int po, String user, String pass) {
@@ -54,7 +60,7 @@ public class SSLServer {
             // MainActivity.context = getApplicationContext();
             InputStream caInput = context.getResources().openRawResource(R.raw.ewolvy);
             Certificate ca = cf.generateCertificate(caInput);
-            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+            // System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
 
             // Create a KeyStore containing our trusted CAs
             String keyStoreType = KeyStore.getDefaultType();
@@ -95,5 +101,75 @@ public class SSLServer {
             }
         }
         return output.toString();
+    }
+
+    void sendCode(String code, Context context, AAState aaState, ImageView iv){
+        codeToSend = code;
+        doConnection connection = new doConnection();
+        connection.execute(context);
+        currentAAState = aaState;
+        onOffSign = iv;
+    }
+
+    private class doConnection extends AsyncTask<Context, Void, String>{
+        String fullAddress;
+        Context currentContext;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            fullAddress = address;
+            fullAddress = fullAddress + ":";
+            fullAddress = fullAddress + port;
+            fullAddress = fullAddress + "/sendcode/";
+            fullAddress = fullAddress + codeToSend;
+        }
+
+        @Override
+        protected String doInBackground(Context... contexts) {
+            currentContext = contexts[0];
+            HttpsURLConnection urlConnection = setUpHttpsConnection(fullAddress, currentContext);
+            String jsonResponse = "";
+            try {
+                if (urlConnection != null){
+                    urlConnection.setReadTimeout(10000 /* milliseconds */);
+                    urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                    urlConnection.setRequestMethod("GET");
+                    String userCredentials = username;
+                    userCredentials = userCredentials + ":";
+                    userCredentials = userCredentials + password;
+                    String basicAuth = "Basic " + Base64.encodeToString(userCredentials.getBytes(), 0);
+                    urlConnection.setRequestProperty ("Authorization", basicAuth);
+                    urlConnection.connect();
+                    if (urlConnection.getResponseCode() == 200) {
+                        InputStream inputStream = urlConnection.getInputStream();
+                        try{
+                            jsonResponse = readFromStream(inputStream);
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return jsonResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null){
+                if (onOffSign != null){
+                    onOffSign.setVisibility(View.INVISIBLE);
+                }
+                currentAAState.setOn(false);
+                Toast toast = Toast.makeText(currentContext, result, Toast.LENGTH_SHORT);
+                toast.show();
+            }else{
+                Toast toast = Toast.makeText(currentContext, currentContext.getString(R.string.connection_error), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
     }
 }
