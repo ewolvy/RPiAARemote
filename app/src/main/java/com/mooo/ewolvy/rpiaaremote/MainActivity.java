@@ -68,15 +68,6 @@ public class MainActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void offClick(View view) {
-        if (myServer != null){
-            myServer.sendCode (state.getPowerOff(), getApplicationContext(), state, (ImageView) findViewById(R.id.onOffSign));
-        }else{
-            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
-            toast.show();
-        }
-    }
-
     public void modeClick(View view) {
         TextView modeView;
         switch (state.getMode()){
@@ -214,20 +205,35 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    public void sendClick(View view) {
-        ImageView onOffSign = (ImageView) findViewById(R.id.onOffSign);
-        if (onOffSign != null){
-            onOffSign.setVisibility(View.VISIBLE);
+    public void offClick(View view) {
+        if (myServer != null){
+            // Send the PowerOff code.
+            myServer.sendCode (state.getPowerOff(), getApplicationContext(), state, (ImageView) findViewById(R.id.onOffSign));
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
+            toast.show();
         }
-        state.setOn (true);
-        Toast toast = Toast.makeText(getApplicationContext(), state.getCommand(), Toast.LENGTH_LONG);
-        toast.show();
+    }
+
+    public void sendClick(View view) {
+        if (myServer != null){
+            // Send the selected command.
+            myServer.sendCode (state.getCommand(), getApplicationContext(), state, (ImageView) findViewById(R.id.onOffSign));
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     public void swingClick(View view) {
         if (state.getIsOn()) {
-            Toast toast = Toast.makeText(getApplicationContext(), state.getSwing(), Toast.LENGTH_LONG);
-            toast.show();
+            if (myServer != null){
+                // Send swing code, no ImageView needed (only for PowerOff / Send)
+                myServer.sendCode (state.getSwing(), getApplicationContext(), state, null);
+            }else{
+                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.server_data_missing), Toast.LENGTH_LONG);
+                toast.show();
+            }
         }else{
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.is_off_message), Toast.LENGTH_LONG);
             toast.show();

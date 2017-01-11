@@ -159,16 +159,30 @@ class SSLServer {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if (result != null){
-                if (onOffSign != null){
-                    onOffSign.setVisibility(View.INVISIBLE);
+            if (codeToSend.equals(currentAAState.getPowerOff())) {
+                if (result != null) {
+                    if (onOffSign != null) {
+                        onOffSign.setVisibility(View.INVISIBLE);
+                    }
+                    currentAAState.setOn(false);
+                    Toast toast = Toast.makeText(currentContext, result, Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    Toast toast = Toast.makeText(currentContext, currentContext.getString(R.string.connection_error), Toast.LENGTH_SHORT);
+                    toast.show();
                 }
-                currentAAState.setOn(false);
-                Toast toast = Toast.makeText(currentContext, result, Toast.LENGTH_SHORT);
-                toast.show();
             }else{
-                Toast toast = Toast.makeText(currentContext, currentContext.getString(R.string.connection_error), Toast.LENGTH_SHORT);
-                toast.show();
+                if (result != null){
+                    if (onOffSign != null) {
+                        onOffSign.setVisibility(View.VISIBLE);
+                    }
+                    currentAAState.setOn(true);
+                    Toast toast = Toast.makeText(currentContext, result, Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    Toast toast = Toast.makeText(currentContext, currentContext.getString(R.string.connection_error), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         }
     }
